@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(titulo='Panel Asistente')}"></head>
+<body>
+    <div th:replace="~{layout :: header}"></div>
+    <div class="container mt-4">
+        <h2 th:text="'Bienvenido: ' + ${rol}"></h2>
+        <div class="card shadow">
+            <div class="card-header">Gestión de Agenda</div>
+            <div class="card-body">
+                <p>Citas pendientes para hoy:</p>
+                <ul class="list-group">
+                    <li class="list-group-item">Consulta Tannie - 10:00 AM</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

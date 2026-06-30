@@ -1,0 +1,30 @@
+:root {
+    --bg-color: #f4f7f9;
+    --sidebar-color: #002d5e;
+    --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+body { background-color: var(--bg-color); font-family: 'Segoe UI', sans-serif; }
+
+/* Sidebar Profesional */
+.sidebar {
+    background-color: var(--sidebar-color);
+    color: white;
+    min-height: 100vh;
+    padding-top: 20px;
+}
+.sidebar .nav-link { color: #d1d1d1; padding: 15px; }
+.sidebar .nav-link:hover { color: white; background: #004085; }
+
+/* Tarjetas Estilo Prototipo */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+}
+.card-header {
+    background: white;
+    border-bottom: 1px solid #eee;
+    font-weight: bold;
+    border-radius: 16px 16px 0 0 !important;
+}

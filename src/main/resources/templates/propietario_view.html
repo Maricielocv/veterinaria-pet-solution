@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(titulo='Panel Propietario')}"></head>
+<body class="d-flex">
+    <div th:replace="~{layout :: sidebar}"></div>
+    <main class="flex-grow-1 p-4">
+        <h2>Mi Panel de Mascotas</h2>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h5>Luna</h5>
+                    <p>Golden Retriever • 3 años</p>
+                    <button class="btn btn-primary btn-sm">Historial</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

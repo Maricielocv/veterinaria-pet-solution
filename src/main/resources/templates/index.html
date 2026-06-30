@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(titulo='Inicio - Pet Solution')}"></head>
+<body>
+    <div th:replace="~{layout :: header}"></div>
+
+    <div class="container mt-5 text-center">
+        <div class="p-5 mb-4 bg-white rounded-3 shadow">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold" style="color: #003366;">Clinical Compassion</h1>
+                <p class="col-md-12 fs-4 text-muted">
+                    Sistema de Registro y Control de Vacunación de Mascotas con proyección de implementación nacional.
+                </p>
+                <hr class="my-4">
+                <p class="fw-semibold">Por favor, seleccione su rol de acceso para ingresar a su panel correspondiente:</p>
+                
+                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                    <a href="/medico" class="btn btn-primary btn-lg px-4 gap-3">Médico Veterinario</a>
+                    <a href="/asistente" class="btn btn-outline-primary btn-lg px-4" style="border-color: #003366; color: #003366;">Asistente</a>
+                    <a href="/propietario" class="btn btn-light btn-lg px-4 border">Propietario</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

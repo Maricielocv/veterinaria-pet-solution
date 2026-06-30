@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(titulo='Panel Médico')}"></head>
+<body>
+    <div th:replace="~{layout :: header}"></div>
+    <div class="container mt-4">
+        <h2 th:text="'Bienvenido: ' + ${rol}"></h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header">Historias Clínicas Activas</div>
+                    <div class="card-body">
+                        <button class="btn btn-primary w-100">Consultar Historia</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="~{layout :: footer}"></div>
+</body>
+</html>

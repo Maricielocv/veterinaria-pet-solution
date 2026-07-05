@@ -1,14 +1,19 @@
 package com.petsolution.veterinaria.entity;
-import jakarta.persistence.*;
-import lombok.Data;
 
-@Entity
-@Table(name = "t_mascota")
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Mascota {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idMascota;
+
+    private int    idMascota;
+    private int    idPropietario;
     private String nombre;
-    private String especie;
-    private String estadoSalud; // Para el indicador visual de RSU
+    private String especie;    // Canino, Felino, Aviario…
+    private String raza;
+    private int    edad;
+    private String sexo;       // M / F
 }

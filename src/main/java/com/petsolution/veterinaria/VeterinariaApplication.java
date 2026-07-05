@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VeterinariaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VeterinariaApplication.class, args);
-	}
-
+        SpringApplication.run(VeterinariaApplication.class, args);
+        System.out.println("╔══════════════════════════════════════════════╗");
+        System.out.println("║   Pet Solutions - Sistema de Vacunación      ║");
+        System.out.println("║   http://localhost:8080                       ║");
+        System.out.println("╚══════════════════════════════════════════════╝");
+    }
 }

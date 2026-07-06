@@ -37,6 +37,11 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>nz.net.ultraq.thymeleaf</groupId>
+      <artifactId>thymeleaf-layout-dialect</artifactId>
+    </dependency>
+
     <!-- ── JDBC: JdbcTemplate para el patrón DAO del informe ───────────── -->
     <!-- Reemplaza a data-jpa: no usamos @Entity ni @Repository de JPA    -->
     <dependency>

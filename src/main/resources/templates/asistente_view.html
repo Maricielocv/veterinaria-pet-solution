@@ -1,20 +1,218 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head(titulo='Panel Asistente')}"></head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="es">
+<head><title>Panel Asistente</title></head>
 <body>
-    <div th:replace="~{layout :: header}"></div>
-    <div class="container mt-4">
-        <h2 th:text="'Bienvenido: ' + ${rol}"></h2>
-        <div class="card shadow">
-            <div class="card-header">Gestión de Agenda</div>
-            <div class="card-body">
-                <p>Citas pendientes para hoy:</p>
-                <ul class="list-group">
-                    <li class="list-group-item">Consulta Tannie - 10:00 AM</li>
-                </ul>
-            </div>
-        </div>
+<div layout:fragment="contenido">
+
+  <!-- ── Encabezado ───────────────────────────────────────────── -->
+  <div class="mb-4">
+    <div class="page-title">Gestión Administrativa y Citas</div>
+    <div class="page-subtitle">
+      Asistente de Clínica · Tareas y citas de hoy
     </div>
-    <div th:replace="~{layout :: footer}"></div>
+  </div>
+
+  <div class="row g-3">
+
+    <!-- ── Columna izquierda ──────────────────────────────────── -->
+    <div class="col-md-5">
+
+      <!-- Formulario: Nuevo Registro de Propietario -->
+      <div class="card p-3 mb-3">
+        <div class="fw-bold mb-3" style="color:var(--ps-navy);font-size:1.05rem;">
+          <i class="bi bi-person-plus-fill me-2"></i>Nuevo Registro
+        </div>
+        <!-- Apunta a PropietarioController.guardar() -->
+        <form th:action="@{/propietarios/guardar}" method="post">
+
+          <div class="mb-2">
+            <label class="form-label">Nombre del Propietario</label>
+            <input type="text" name="nombre"
+                   class="form-control" placeholder="Ej: Juan Pérez" required/>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">DNI</label>
+            <input type="text" name="dni"
+                   class="form-control" placeholder="Ej: 47123456"
+                   maxlength="8" required/>
+          </div>
+
+          <div class="row g-2 mb-2">
+            <div class="col">
+              <label class="form-label">Apellido</label>
+              <input type="text" name="apellido"
+                     class="form-control" placeholder="Ej: Pérez"/>
+            </div>
+            <div class="col">
+              <label class="form-label">Teléfono</label>
+              <input type="text" name="telefono"
+                     class="form-control" placeholder="+51 999 000 000"/>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Nombre de la Mascota</label>
+            <input type="text" name="nombreMascota"
+                   class="form-control" placeholder="Ej: Luna"/>
+          </div>
+
+          <button type="submit" class="btn btn-ps-green w-100">
+            <i class="bi bi-person-check-fill me-1"></i> Registrar y Agendar
+          </button>
+        </form>
+      </div>
+
+      <!-- Buscar propietario por DNI -->
+      <div class="card p-3">
+        <div class="fw-bold mb-2" style="color:var(--ps-navy);">
+          <i class="bi bi-search me-2"></i>Buscar Propietario
+        </div>
+        <form th:action="@{/propietarios/buscar}" method="get"
+              class="d-flex gap-2">
+          <input type="text" name="dni"
+                 class="form-control" placeholder="DNI del propietario"/>
+          <button type="submit" class="btn btn-ps-primary">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+
+        <!-- Resultado de búsqueda -->
+        <div th:if="${propietario != null}" class="mt-3 p-2 rounded"
+             style="background:var(--ps-navy-pale);">
+          <div class="fw-semibold"
+               th:text="${propietario.nombre + ' ' + propietario.apellido}">
+          </div>
+          <small class="text-muted"
+                 th:text="'DNI: ' + propietario.dni + ' · Tel: ' + propietario.telefono">
+          </small>
+          <div class="mt-2">
+            <span class="text-muted" style="font-size:0.8rem;">Mascotas:</span>
+            <span th:each="m : ${mascotas}"
+                  class="badge me-1"
+                  style="background:var(--ps-navy);color:white;"
+                  th:text="${m.nombre}">
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Columna derecha ────────────────────────────────────── -->
+    <div class="col-md-7">
+
+      <!-- Agenda de Citas del Día -->
+      <div class="card mb-3">
+        <div class="card-header-ps d-flex justify-content-between
+                    align-items-center">
+          <span class="fw-bold" style="color:var(--ps-navy);">
+            <i class="bi bi-calendar2-week me-2"></i>Agenda de Citas
+          </span>
+          <span class="text-muted" style="font-size:0.82rem;">
+            Hoy
+          </span>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-ps mb-0">
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Paciente</th>
+                <th>Motivo</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Itera citasHoy del controlador -->
+              <tr th:each="c : ${citasHoy}" th:if="${citasHoy != null}">
+                <td class="fw-bold" style="color:var(--ps-navy);">
+                  <span th:text="${c.fechaOrden}">09:00</span>
+                </td>
+                <td th:text="${c.idMascota}">Mascota</td>
+                <td th:text="${c.tipoServicio}">Vacunación</td>
+                <td>
+                  <!-- Badge dinámico según estado -->
+                  <span th:class="'estado-badge ' +
+                    (c.estado == 'EN_SALA'    ? 'badge-en-sala'    :
+                     c.estado == 'CONFIRMADO' ? 'badge-confirmado' :
+                     c.estado == 'COMPLETADO' ? 'badge-al-dia'     :
+                     'badge-pendiente')"
+                        th:text="${c.estado}">
+                  </span>
+                </td>
+                <td>
+                  <!-- Formulario inline para cambiar estado -->
+                  <form th:action="@{/vacunacion/cita/estado}" method="post"
+                        class="d-flex gap-1">
+                    <input type="hidden" name="idOrden"
+                           th:value="${c.idOrden}"/>
+                    <select name="nuevoEstado"
+                            class="form-select form-select-sm"
+                            style="width:auto;">
+                      <option value="PENDIENTE">Pendiente</option>
+                      <option value="EN_SALA">En Sala</option>
+                      <option value="CONFIRMADO">Confirmado</option>
+                      <option value="COMPLETADO">Completado</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-ps-primary">
+                      OK
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <tr th:if="${citasHoy == null or citasHoy.empty}">
+                <td colspan="5" class="text-center text-muted py-3">
+                  No hay citas agendadas para hoy.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Recordatorios de Vacunación -->
+      <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div class="fw-bold" style="color:var(--ps-navy);">
+            <i class="bi bi-bell-fill me-2"></i>Recordatorios de Vacunación
+          </div>
+          <span class="estado-badge badge-urgente"
+                th:text="${proximasDosis != null ? proximasDosis.size() + ' Pendientes' : '0'}">
+          </span>
+        </div>
+
+        <div th:each="r : ${proximasDosis}"
+             th:if="${proximasDosis != null}"
+             class="d-flex align-items-center justify-content-between
+                    py-2 border-bottom">
+          <div>
+            <i class="bi bi-alarm text-warning me-2"></i>
+            <span class="fw-semibold" style="font-size:0.9rem;"
+                  th:text="'Mascota ID: ' + r.idMascota">
+            </span>
+            <div class="text-muted ms-4" style="font-size:0.8rem;"
+                 th:text="${r.tipoVacuna + ' · próx: ' + r.proximaDosis}">
+            </div>
+          </div>
+          <button class="btn btn-sm btn-ps-primary">
+            <i class="bi bi-whatsapp me-1"></i>Avisar
+          </button>
+        </div>
+
+        <div th:if="${proximasDosis == null or proximasDosis.empty}"
+             class="text-muted text-center py-2">
+          No hay recordatorios pendientes.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

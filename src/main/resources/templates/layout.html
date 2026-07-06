@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title layout:title-pattern="$CONTENT_TITLE - Pet Solutions">Pet Solutions</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+        rel="stylesheet"/>
+  <!-- CSS propio (color navy #1A3B6B y ajustes) -->
+  <link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<body class="d-flex">
+
+  <!-- ══════════════════════════════════════════════
+       BARRA LATERAL (sidebar) — igual en todos los mockups
+       ══════════════════════════════════════════════ -->
+  <aside class="sidebar d-flex flex-column p-3">
+
+    <!-- Logo / nombre del sistema -->
+    <div class="sidebar-brand mb-4 text-center">
+      <i class="bi bi-heart-pulse-fill fs-2 text-white"></i>
+      <div class="text-white fw-bold fs-6 mt-1">Pet Solutions</div>
+      <div class="text-sidebar-muted" style="font-size:11px;">Health Management</div>
+    </div>
+
+    <!-- Navegación principal -->
+    <nav class="nav flex-column gap-1 flex-grow-1">
+
+      <a th:href="@{/}"
+         th:classappend="${paginaActiva == 'home'} ? ' active' : ''"
+         class="nav-link-sidebar">
+        <i class="bi bi-grid-fill me-2"></i> Dashboard
+      </a>
+
+      <a th:href="@{/vacunacion/panel-medico}"
+         th:classappend="${paginaActiva == 'medico'} ? ' active' : ''"
+         class="nav-link-sidebar">
+        <i class="bi bi-bandaid-fill me-2"></i> Panel Médico
+      </a>
+
+      <a th:href="@{/vacunacion/panel-asistente}"
+         th:classappend="${paginaActiva == 'asistente'} ? ' active' : ''"
+         class="nav-link-sidebar">
+        <i class="bi bi-calendar2-check-fill me-2"></i> Asistente
+      </a>
+
+      <a th:href="@{/vacunacion/panel-propietario}"
+         th:classappend="${paginaActiva == 'propietario'} ? ' active' : ''"
+         class="nav-link-sidebar">
+        <i class="bi bi-person-fill me-2"></i> Propietario
+      </a>
+
+    </nav>
+
+    <!-- Botón New Entry (parte inferior del mockup) -->
+    <div class="mt-auto">
+      <a th:href="@{/vacunacion/panel-asistente}"
+         class="btn btn-new-entry w-100 mb-3">
+        <i class="bi bi-plus-lg me-1"></i> New Entry
+      </a>
+      <a href="#" class="nav-link-sidebar">
+        <i class="bi bi-gear-fill me-2"></i> Settings
+      </a>
+      <a href="#" class="nav-link-sidebar mt-1">
+        <i class="bi bi-question-circle-fill me-2"></i> Support
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ══════════════════════════════════════════════
+       CONTENIDO PRINCIPAL — cada vista lo reemplaza
+       ══════════════════════════════════════════════ -->
+  <main class="main-content flex-grow-1 p-4">
+
+    <!-- Mensajes flash (éxito / error) visibles en todas las vistas -->
+    <div th:if="${mensajeExito}"
+         class="alert alert-success alert-dismissible fade show" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      <span th:text="${mensajeExito}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${mensajeError}"
+         class="alert alert-danger alert-dismissible fade show" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <span th:text="${mensajeError}"></span>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Aquí cada vista inserta su contenido -->
+    <div layout:fragment="contenido">
+      <!-- contenido de la vista hija -->
+    </div>
+
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

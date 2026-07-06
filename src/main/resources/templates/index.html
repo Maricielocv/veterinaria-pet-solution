@@ -1,28 +1,118 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head(titulo='Inicio - Pet Solution')}"></head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="es">
+<head>
+  <title>Dashboard</title>
+</head>
 <body>
-    <div th:replace="~{layout :: header}"></div>
+<div layout:fragment="contenido">
 
-    <div class="container mt-5 text-center">
-        <div class="p-5 mb-4 bg-white rounded-3 shadow">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold" style="color: #003366;">Clinical Compassion</h1>
-                <p class="col-md-12 fs-4 text-muted">
-                    Sistema de Registro y Control de Vacunación de Mascotas con proyección de implementación nacional.
-                </p>
-                <hr class="my-4">
-                <p class="fw-semibold">Por favor, seleccione su rol de acceso para ingresar a su panel correspondiente:</p>
-                
-                <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
-                    <a href="/medico" class="btn btn-primary btn-lg px-4 gap-3">Médico Veterinario</a>
-                    <a href="/asistente" class="btn btn-outline-primary btn-lg px-4" style="border-color: #003366; color: #003366;">Asistente</a>
-                    <a href="/propietario" class="btn btn-light btn-lg px-4 border">Propietario</a>
-                </div>
-            </div>
+  <!-- ── Encabezado ───────────────────────────────────────────── -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <div class="page-title">Pet Solutions</div>
+      <div class="page-subtitle">Sistema de Registro y Control de Vacunación</div>
+    </div>
+    <div class="d-flex gap-2">
+      <a th:href="@{/vacunacion/panel-medico}"    class="btn btn-ps-outline">
+        <i class="bi bi-bandaid me-1"></i> Panel Médico
+      </a>
+      <a th:href="@{/vacunacion/panel-asistente}" class="btn btn-ps-primary">
+        <i class="bi bi-plus-lg me-1"></i> Nueva Cita
+      </a>
+    </div>
+  </div>
+
+  <!-- ── KPIs ─────────────────────────────────────────────────── -->
+  <div class="row g-3 mb-4">
+
+    <div class="col-md-4">
+      <div class="kpi-card d-flex align-items-center gap-3">
+        <div class="kpi-icon kpi-icon-blue">
+          <i class="bi bi-people-fill"></i>
         </div>
+        <div>
+          <div class="kpi-value">18</div>
+          <div class="kpi-label">Total Pacientes</div>
+          <small class="text-success fw-semibold">+4 hoy</small>
+        </div>
+      </div>
     </div>
 
-    <div th:replace="~{layout :: footer}"></div>
+    <div class="col-md-4">
+      <div class="kpi-card d-flex align-items-center gap-3">
+        <div class="kpi-icon kpi-icon-orange">
+          <i class="bi bi-syringe"></i>
+        </div>
+        <div>
+          <div class="kpi-value">06</div>
+          <div class="kpi-label">Vacunas Pendientes</div>
+          <small class="text-danger fw-semibold">2 vencidas</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="kpi-card d-flex align-items-center gap-3">
+        <div class="kpi-icon kpi-icon-green">
+          <i class="bi bi-calendar-check-fill"></i>
+        </div>
+        <div>
+          <div class="kpi-value">12</div>
+          <div class="kpi-label">Citas del Día</div>
+          <small class="text-muted fw-semibold">Próxima: 10:30 AM</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Accesos rápidos ──────────────────────────────────────── -->
+  <div class="row g-3">
+
+    <div class="col-md-4">
+      <div class="card p-3 h-100">
+        <div class="fw-bold mb-1" style="color:var(--ps-navy);">
+          <i class="bi bi-person-plus-fill me-2"></i>Agregar Paciente
+        </div>
+        <div class="text-muted" style="font-size:0.85rem;">
+          Registra un nuevo propietario y mascota
+        </div>
+        <a th:href="@{/vacunacion/panel-asistente}"
+           class="btn btn-ps-primary mt-3">Ir al panel</a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 h-100">
+        <div class="fw-bold mb-1" style="color:var(--ps-navy);">
+          <i class="bi bi-syringe me-2"></i>Registrar Vacunación
+        </div>
+        <div class="text-muted" style="font-size:0.85rem;">
+          Aplica y registra una vacuna a un paciente
+        </div>
+        <a th:href="@{/vacunacion/panel-medico}"
+           class="btn btn-ps-primary mt-3">Ir al panel</a>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 h-100">
+        <div class="fw-bold mb-1" style="color:var(--ps-navy);">
+          <i class="bi bi-calendar2-plus me-2"></i>Nueva Cita
+        </div>
+        <div class="text-muted" style="font-size:0.85rem;">
+          Agenda una próxima visita al veterinario
+        </div>
+        <a th:href="@{/vacunacion/panel-asistente}"
+           class="btn btn-ps-primary mt-3">Ir al panel</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 </body>
 </html>

@@ -1,21 +1,213 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head(titulo='Panel Médico')}"></head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="es">
+<head><title>Panel Médico</title></head>
 <body>
-    <div th:replace="~{layout :: header}"></div>
-    <div class="container mt-4">
-        <h2 th:text="'Bienvenido: ' + ${rol}"></h2>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-header">Historias Clínicas Activas</div>
-                    <div class="card-body">
-                        <button class="btn btn-primary w-100">Consultar Historia</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div layout:fragment="contenido">
+
+  <!-- ── Encabezado ───────────────────────────────────────────── -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <div class="page-title">Panel Clínico Veterinario</div>
+      <div class="page-subtitle">Médico Veterinario — Dr./Dra.</div>
     </div>
-    <div th:replace="~{layout :: footer}"></div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-ps-outline">
+        <i class="bi bi-funnel me-1"></i> Filtrar Vista
+      </button>
+      <button class="btn btn-ps-primary"
+              data-bs-toggle="modal" data-bs-target="#modalVacunacion">
+        <i class="bi bi-plus-lg me-1"></i> Nueva Consulta
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-3">
+
+    <!-- ── Columna izquierda ──────────────────────────────────── -->
+    <div class="col-md-5">
+
+      <!-- Campaña Activa -->
+      <div class="card p-3 mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="fw-bold" style="color:var(--ps-green);">
+            <i class="bi bi-megaphone-fill me-1"></i> Campaña Activa
+          </div>
+          <span class="estado-badge badge-urgente">PRIORIDAD</span>
+        </div>
+        <div class="fw-semibold mb-1" style="font-size:0.95rem;">
+          Refuerzo Polivalente 2025
+        </div>
+        <div class="progress mb-1">
+          <div class="progress-bar-ps progress-bar" style="width:72%"></div>
+        </div>
+        <small class="text-muted">72% Meta Alcanzada · 18 días restantes</small>
+        <div class="alert alert-light mt-2 mb-0 p-2"
+             style="font-size:0.8rem;border-left:3px solid var(--ps-navy);">
+          <i class="bi bi-info-circle me-1"></i>
+          Verificar lote #VXC-2025-001 antes de la aplicación.
+        </div>
+      </div>
+
+      <!-- Formulario Nueva Vacunación -->
+      <div class="card p-3">
+        <div class="fw-bold mb-3" style="color:var(--ps-navy);font-size:1.1rem;">
+          <i class="bi bi-syringe me-2"></i>Nueva Vacunación
+        </div>
+        <!-- action apunta al controlador VacunacionController.registrarVacunacion() -->
+        <form th:action="@{/vacunacion/registrar}" method="post">
+
+          <div class="mb-2">
+            <label class="form-label">Mascota</label>
+            <select name="idMascota" class="form-select" required>
+              <option value="">Selecciona una mascota...</option>
+              <option th:each="m : ${pacientes}"
+                      th:value="${m.idMascota}"
+                      th:text="${m.nombre + ' (' + m.especie + ')'}">
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Tipo de Vacuna</label>
+            <select name="tipoVacuna" class="form-select" required>
+              <option value="">Seleccionar...</option>
+              <option value="Rabia (Anual)">Rabia (Anual)</option>
+              <option value="Parvovirus">Parvovirus</option>
+              <option value="Moquillo">Moquillo</option>
+              <option value="Triple Felina">Triple Felina</option>
+              <option value="Polivalente">Polivalente</option>
+            </select>
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label">Número de Lote</label>
+            <input type="text" name="numeroDeLote"
+                   class="form-control" placeholder="BV-9012" required/>
+          </div>
+
+          <div class="row g-2 mb-2">
+            <div class="col">
+              <label class="form-label">Fecha Aplicación</label>
+              <input type="date" name="fechaAplicacion"
+                     class="form-control" required/>
+            </div>
+            <div class="col">
+              <label class="form-label">Próxima Dosis</label>
+              <input type="date" name="proximaDosis" class="form-control"/>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Observaciones</label>
+            <input type="text" name="observaciones"
+                   class="form-control" placeholder="Sin reacciones adversas..."/>
+          </div>
+
+          <button type="submit" class="btn btn-ps-green w-100">
+            <i class="bi bi-check-lg me-1"></i> Registrar Aplicación
+          </button>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- ── Columna derecha ────────────────────────────────────── -->
+    <div class="col-md-7">
+
+      <!-- Pacientes en Espera -->
+      <div class="card mb-3">
+        <div class="card-header-ps d-flex justify-content-between">
+          <span class="fw-bold" style="color:var(--ps-navy);">
+            <i class="bi bi-people-fill me-2"></i>Pacientes en Espera
+          </span>
+          <span class="text-muted" style="font-size:0.85rem;">
+            <i class="bi bi-person-fill me-1"></i>
+            <span th:text="${pacientes != null ? pacientes.size() : 0}">0</span>
+            en sala
+          </span>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-ps mb-0">
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Especie</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- th:each itera la lista "pacientes" enviada por el controlador -->
+              <tr th:each="m : ${pacientes}" th:if="${pacientes != null}">
+                <td>
+                  <div class="fw-semibold" th:text="${m.nombre}">Luna</div>
+                  <small class="text-muted"
+                         th:text="${m.raza + ' · ' + m.edad + 'a'}">
+                  </small>
+                </td>
+                <td th:text="${m.especie}">Canino</td>
+                <td>
+                  <span class="estado-badge badge-listo">Activo</span>
+                </td>
+                <td>
+                  <a th:href="@{/mascotas/{id}/historial(id=${m.idMascota})}"
+                     class="btn btn-sm btn-ps-outline">
+                    Ver historial
+                  </a>
+                </td>
+              </tr>
+              <!-- Mensaje si no hay pacientes -->
+              <tr th:if="${pacientes == null or pacientes.empty}">
+                <td colspan="4" class="text-center text-muted py-3">
+                  No hay pacientes registrados aún.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Historial Médico (si se seleccionó una mascota) -->
+      <div class="card" th:if="${mascota != null}">
+        <div class="card-header-ps">
+          <span class="fw-bold" style="color:var(--ps-navy);">
+            <i class="bi bi-clock-history me-2"></i>
+            Historial Médico:
+            <span th:text="${mascota.nombre}">Luna</span>
+          </span>
+        </div>
+        <div class="card-body">
+          <div th:each="r : ${vacunaciones}" class="timeline-item">
+            <div class="timeline-dot dot-green">
+              <i class="bi bi-check-lg"></i>
+            </div>
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between">
+                <span class="fw-semibold"
+                      th:text="${r.tipoVacuna}">Vacuna</span>
+                <small class="text-muted"
+                       th:text="${r.fechaAplicacion}">fecha</small>
+              </div>
+              <small class="text-muted"
+                     th:text="'Lote: ' + r.numeroDeLote +
+                     (r.observaciones != null and !r.observaciones.empty
+                      ? '. ' + r.observaciones : '')">
+              </small>
+            </div>
+          </div>
+          <div th:if="${vacunaciones == null or vacunaciones.empty}"
+               class="text-muted text-center py-2">
+            Sin vacunaciones registradas.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

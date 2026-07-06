@@ -1,19 +1,142 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head(titulo='Panel Propietario')}"></head>
-<body class="d-flex">
-    <div th:replace="~{layout :: sidebar}"></div>
-    <main class="flex-grow-1 p-4">
-        <h2>Mi Panel de Mascotas</h2>
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card p-3">
-                    <h5>Luna</h5>
-                    <p>Golden Retriever • 3 años</p>
-                    <button class="btn btn-primary btn-sm">Historial</button>
-                </div>
-            </div>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout}" lang="es">
+
+<head>
+  <title>Panel Propietario</title>
+</head>
+
+<body>
+  <div layout:fragment="contenido">
+
+    <!-- ── Encabezado ───────────────────────────────────────────── -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <div class="page-title">Mi Panel de Mascotas</div>
+        <div class="page-subtitle">
+          ¡Hola, <span th:text="${propietario != null ? propietario.nombre : 'Propietario'}">Propietario</span>!
         </div>
-    </main>
+      </div>
+      <div>
+        <i class="bi bi-bell fs-5 me-3 text-muted"></i>
+        <i class="bi bi-person-circle fs-4" style="color:var(--ps-navy);"></i>
+      </div>
+    </div>
+
+    <div class="row g-3">
+
+      <!-- ── Mis Mascotas ──────────────────────────────────────── -->
+      <div class="col-md-8">
+        <div class="fw-bold mb-3" style="color:var(--ps-navy);font-size:1.05rem;">
+          Tus Mascotas
+          <a href="#" class="float-end text-decoration-none" style="font-size:0.85rem;color:var(--ps-navy);">
+            Ver todos <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        </div>
+
+        <div class="row g-3">
+          <!-- Itera la lista "misMascotas" del controlador -->
+          <div class="col-6 col-md-4" th:each="m : ${misMascotas}" th:if="${misMascotas != null}">
+            <div class="mascota-card">
+              <!-- Imagen placeholder por especie -->
+              <div class="d-flex align-items-center justify-content-center"
+                style="height:120px;background:var(--ps-navy-pale);">
+                <i class="bi bi-heart-pulse-fill fs-1" style="color:var(--ps-navy);"></i>
+              </div>
+              <div class="p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="fw-bold" th:text="${m.nombre}">Luna</div>
+                  <i class="bi bi-pencil-fill" style="color:var(--ps-muted);font-size:0.8rem;"></i>
+                </div>
+                <small class="text-muted" th:text="${m.raza + ' · ' + m.edad + ' año(s)'}">
+                </small>
+                <div class="d-flex gap-2 mt-2">
+                  <a th:href="@{/mascotas/{id}/historial(id=${m.idMascota})}"
+                    class="btn btn-sm btn-ps-outline flex-grow-1" style="font-size:0.78rem;">
+                    <i class="bi bi-clock-history me-1"></i>Historial
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón "Añadir Mascota" -->
+          <div class="col-6 col-md-4">
+            <div class="mascota-card d-flex flex-column align-items-center
+                      justify-content-center p-3 text-center" style="min-height:200px;border:2px dashed var(--ps-navy-light);
+                      background:transparent;box-shadow:none;">
+              <div class="rounded-circle d-flex align-items-center
+                        justify-content-center mb-2" style="width:50px;height:50px;background:var(--ps-navy-pale);">
+                <i class="bi bi-plus-lg fs-4" style="color:var(--ps-navy);"></i>
+              </div>
+              <div class="fw-semibold" style="color:var(--ps-navy);">
+                Añadir Mascota
+              </div>
+              <small class="text-muted">
+                Registra un nuevo integrante
+              </small>
+            </div>
+          </div>
+
+          <!-- Mensaje si no hay mascotas -->
+          <div class="col-12" th:if="${misMascotas == null or misMascotas.empty}">
+            <p class="text-muted">No tienes mascotas registradas aún.</p>
+          </div>
+        </div>
+
+        <!-- Próximos Refuerzos -->
+        <div class="card mt-3 p-3">
+          <div class="fw-bold mb-3" style="color:var(--ps-navy);">
+            <i class="bi bi-calendar2-check me-2"></i>Próximos Refuerzos
+          </div>
+          <p class="text-muted" style="font-size:0.9rem;">
+            Consulta con el asistente de Pet Solutions para agendar tus
+            próximas vacunas.
+          </p>
+        </div>
+      </div>
+
+      <!-- ── Columna derecha ────────────────────────────────────── -->
+      <div class="col-md-4">
+
+        <!-- Próxima Vacuna -->
+        <div class="card p-3 mb-3">
+          <div class="text-muted mb-1" style="font-size:0.8rem;font-weight:700;">
+            <i class="bi bi-calendar3 me-1"></i> PRÓXIMA VACUNA
+          </div>
+          <div class="fw-bold" style="color:var(--ps-navy);">Antirrábica</div>
+          <small class="text-muted">Para tu mascota registrada</small>
+          <div class="d-flex align-items-center justify-content-between mt-2">
+            <div>
+              <span style="font-size:2rem;font-weight:700;
+                         color:var(--ps-navy);">14</span>
+              <div class="text-muted" style="font-size:0.75rem;">OCTUBRE</div>
+            </div>
+            <i class="bi bi-bell-fill fs-3" style="color:var(--ps-green);"></i>
+          </div>
+        </div>
+
+        <!-- Certificados -->
+        <div class="card p-3" style="background:var(--ps-navy-pale);">
+          <div class="fw-bold mb-1" style="color:var(--ps-navy);">
+            <i class="bi bi-patch-check-fill me-2"></i>Certificados
+          </div>
+          <small class="text-muted">Descarga rápida de documentos validados.</small>
+          <div class="mt-3 d-flex align-items-center justify-content-between
+                    py-2 border-bottom">
+            <span style="font-size:0.85rem;">Certificado de Vacunación</span>
+            <i class="bi bi-download" style="color:var(--ps-navy);"></i>
+          </div>
+          <div class="d-flex align-items-center justify-content-between pt-2">
+            <span style="font-size:0.85rem;">Historial General</span>
+            <i class="bi bi-download" style="color:var(--ps-navy);"></i>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
 </body>
+
 </html>

@@ -18,4 +18,13 @@ public class OrdenServicio {
     private String    estado;
     private String    descripcion;
     private double    costo;
+
+    public String getCssEstado() {
+    return switch (this.estado) {
+        case "EN_SALA" -> "badge-en-sala";
+        case "CONFIRMADO" -> "badge-confirmado";
+        case "COMPLETADO" -> "badge-al-dia";
+        default -> "badge-pendiente";
+    };
+}
 }

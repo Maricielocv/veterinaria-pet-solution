@@ -1,303 +1,65 @@
-/* ══════════════════════════════════════════════════════════════
-   PET SOLUTIONS — style.css
-   Color principal: #1A3B6B (navy)
-   ══════════════════════════════════════════════════════════════ */
-
-/* ── Variables de color ─────────────────────────────────────── */
-:root {
-  --ps-navy:       #1A3B6B;
-  --ps-navy-mid:   #3D5A8A;
-  --ps-navy-light: #CADCFC;
-  --ps-navy-pale:  #EEF3FB;
-  --ps-green:      #0F6E56;
-  --ps-green-light:#D4EDDA;
-  --ps-orange:     #E07B2A;
-  --ps-red:        #C0392B;
-  --ps-text:       #1F2A44;
-  --ps-muted:      #6C7A9C;
-  --sidebar-w:     220px;
-}
-
-/* ── Reset base ─────────────────────────────────────────────── */
-* { box-sizing: border-box; }
-
+/* Paleta Celeste Fresca */
 body {
-  font-family: 'Segoe UI', Calibri, sans-serif;
-  background-color: #F4F6FB;
-  color: var(--ps-text);
-  min-height: 100vh;
+    background-color: #f0f7f9;
+    font-family: 'Segoe UI', sans-serif;
+    color: #334e68;
 }
 
-/* ── SIDEBAR ────────────────────────────────────────────────── */
+/* Sidebar Celeste Suave */
 .sidebar {
-  width: var(--sidebar-w);
-  min-height: 100vh;
-  background-color: var(--ps-navy);
-  position: sticky;
-  top: 0;
-  flex-shrink: 0;
+    background-color: #5dade2;
+    color: white;
+    min-height: 100vh;
+    padding: 1.5rem;
+  }
+
+.sidebar a {
+    color: #ebf5fb;
+    padding: 12px 20px;
+    display: block;
+    text-decoration: none;
+    transition: 0.3s;
 }
 
-.sidebar-brand .text-sidebar-muted {
-  color: var(--ps-navy-light);
-  opacity: 0.75;
+.sidebar a:hover {
+    background-color: #3498db;
+    color: white;
 }
-
-/* Links de navegación en el sidebar */
+/* Mejora los enlaces del sidebar */
 .nav-link-sidebar {
-  display: flex;
-  align-items: center;
-  padding: 0.55rem 0.85rem;
-  border-radius: 8px;
-  color: var(--ps-navy-light);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background 0.18s, color 0.18s;
+    color: #ffffff; /* Blanco para mejor contraste */
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 5px;
 }
 
-.nav-link-sidebar:hover {
-  background-color: var(--ps-navy-mid);
-  color: #ffffff;
+.nav-link-sidebar:hover, .nav-link-sidebar.active {
+    background-color: #3498db; /* Azul un poco más intenso al pasar el mouse */
 }
 
-.nav-link-sidebar.active {
-  background-color: var(--ps-navy-mid);
-  color: #ffffff;
-  font-weight: 600;
-}
-
-/* Botón "New Entry" */
-.btn-new-entry {
-  background-color: #ffffff;
-  color: var(--ps-navy);
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  padding: 0.6rem;
-  transition: background 0.18s;
-}
-
-.btn-new-entry:hover {
-  background-color: var(--ps-navy-light);
-  color: var(--ps-navy);
-}
-
-/* ── CONTENIDO PRINCIPAL ────────────────────────────────────── */
-.main-content {
-  min-height: 100vh;
-  background-color: #F4F6FB;
-  overflow-y: auto;
-}
-
-/* ── CARDS GENERALES ────────────────────────────────────────── */
+/* Tarjetas livianas */
 .card {
-  border: none;
-  border-radius: 14px;
-  box-shadow: 0 2px 10px rgba(26,59,107,0.08);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
-.card-header-ps {
-  background-color: var(--ps-navy-pale);
-  border-radius: 14px 14px 0 0 !important;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--ps-navy-light);
+.card-header {
+    background-color: #d6eaf8 !important;
+    color: #2e86c1;
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: bold;
 }
 
-/* ── KPI CARDS (dashboard) ──────────────────────────────────── */
-.kpi-card {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 1.25rem 1.5rem;
-  box-shadow: 0 2px 10px rgba(26,59,107,0.08);
-}
-
-.kpi-card .kpi-icon {
-  width: 48px; height: 48px;
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem;
-}
-
-.kpi-icon-blue   { background-color: var(--ps-navy-pale); color: var(--ps-navy); }
-.kpi-icon-green  { background-color: var(--ps-green-light); color: var(--ps-green); }
-.kpi-icon-orange { background-color: #FFF0E0; color: var(--ps-orange); }
-
-.kpi-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--ps-text);
-  line-height: 1;
-}
-
-.kpi-label {
-  font-size: 0.82rem;
-  color: var(--ps-muted);
-}
-
-/* ── BADGES DE ESTADO ───────────────────────────────────────── */
-.badge-listo      { background-color: var(--ps-green-light); color: var(--ps-green); }
-.badge-triaje     { background-color: #FFF0E0; color: var(--ps-orange); }
-.badge-urgente    { background-color: #FCE8E6; color: var(--ps-red); }
-.badge-pendiente  { background-color: #FFF0E0; color: var(--ps-orange); }
-.badge-confirmado { background-color: var(--ps-green-light); color: var(--ps-green); }
-.badge-en-sala    { background-color: var(--ps-navy-pale); color: var(--ps-navy); }
-.badge-al-dia     { background-color: var(--ps-green-light); color: var(--ps-green); }
-
-.estado-badge {
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.3rem 0.75rem;
-  border-radius: 20px;
-  display: inline-block;
-}
-
-/* ── BOTONES PRINCIPALES ────────────────────────────────────── */
+/* Botones amigables */
 .btn-ps-primary {
-  background-color: var(--ps-navy);
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 0.55rem 1.2rem;
-  font-weight: 600;
-  transition: background 0.18s;
+    background-color: #3498db;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    border: none;
 }
 
 .btn-ps-primary:hover {
-  background-color: var(--ps-navy-mid);
-  color: #ffffff;
-}
-
-.btn-ps-green {
-  background-color: var(--ps-green);
-  color: #ffffff;
-  border: none;
-  border-radius: 10px;
-  padding: 0.55rem 1.2rem;
-  font-weight: 600;
-}
-
-.btn-ps-green:hover {
-  background-color: #0a5a46;
-  color: #ffffff;
-}
-
-.btn-ps-outline {
-  border: 1.5px solid var(--ps-navy);
-  color: var(--ps-navy);
-  background: transparent;
-  border-radius: 10px;
-  padding: 0.5rem 1.1rem;
-  font-weight: 500;
-  transition: all 0.18s;
-}
-
-.btn-ps-outline:hover {
-  background-color: var(--ps-navy);
-  color: #ffffff;
-}
-
-/* ── FORMULARIOS ────────────────────────────────────────────── */
-.form-control, .form-select {
-  border-radius: 8px;
-  border: 1.5px solid #D0DAF0;
-  font-size: 0.9rem;
-}
-
-.form-control:focus, .form-select:focus {
-  border-color: var(--ps-navy);
-  box-shadow: 0 0 0 3px rgba(26,59,107,0.12);
-}
-
-.form-label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--ps-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-/* ── TABLA DE CITAS / PACIENTES ─────────────────────────────── */
-.table-ps thead th {
-  background-color: var(--ps-navy-pale);
-  color: var(--ps-muted);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: none;
-}
-
-.table-ps tbody tr {
-  border-bottom: 1px solid #EEF3FB;
-  vertical-align: middle;
-}
-
-.table-ps tbody tr:hover {
-  background-color: var(--ps-navy-pale);
-}
-
-/* ── HISTORIAL CLÍNICO (línea de tiempo) ────────────────────── */
-.timeline-item {
-  display: flex;
-  gap: 0.85rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #EEF3FB;
-}
-
-.timeline-dot {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  font-size: 0.8rem;
-}
-
-.dot-green  { background-color: var(--ps-green-light); color: var(--ps-green); }
-.dot-red    { background-color: #FCE8E6; color: var(--ps-red); }
-.dot-orange { background-color: #FFF0E0; color: var(--ps-orange); }
-
-/* ── MASCOTA CARD (propietario) ─────────────────────────────── */
-.mascota-card {
-  background: #ffffff;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(26,59,107,0.08);
-  transition: transform 0.18s;
-}
-
-.mascota-card:hover { transform: translateY(-3px); }
-
-.mascota-card img {
-  width: 100%; height: 160px; object-fit: cover;
-}
-
-/* ── BARRA DE PROGRESO CAMPAÑA ──────────────────────────────── */
-.progress {
-  border-radius: 10px;
-  height: 8px;
-  background-color: var(--ps-navy-pale);
-}
-
-.progress-bar-ps {
-  background-color: var(--ps-green);
-  border-radius: 10px;
-}
-
-/* ── PÁGINA TÍTULO ──────────────────────────────────────────── */
-.page-title {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--ps-navy);
-}
-
-.page-subtitle {
-  font-size: 0.9rem;
-  color: var(--ps-muted);
-}
-
-/* ── RESPONSIVE: ocultar sidebar en móvil ───────────────────── */
-@media (max-width: 768px) {
-  .sidebar { display: none !important; }
-  .main-content { padding: 1rem !important; }
+    background-color: #2874a6;
 }
